@@ -14,14 +14,20 @@ Este cifrado solo funciona con strings de 7 caracteres, si tiene más de eso, el
 
 ![image](https://github.com/user-attachments/assets/7bf0c969-0357-4058-9e89-99fa42031762)
 
-### Paso 3: El servidor requiere de un enter para recibir el nuevo mensaje
+### Paso 3: El servidor requiere de un enter para recibir el nuevo mensaje.
+
 ![image](https://github.com/user-attachments/assets/d6a46223-4af9-4f32-8c79-069882a521db)
+
+### Paso 4: Emite los mensajes que necesites, y finaliza la sesión del cliente con Exit
+
+![image](https://github.com/user-attachments/assets/7bf0c969-0357-4058-9e89-99fa42031762)
 
 ## Nomenclatura de encriptación 
 
 **FCM:** First Contact Message, mensaje que se envía para generar la tabla de llaves del cliente en el servidor, a través de una semilla.
 **RM:** Regular Messages, mensaje que se envia cuando se desea escribir el texto a encriptar.
 **KUM:** Key Update message, Mensaje que se envía para actualizar la tabla de llaves en el cliente y servidor
-**LCM:** Last Contact Message, Mensaje que elimina la tabla de llaves existente, y suspende conexión con el servidor.
+**LCM:** Last Contact Message, Mensaje que elimina la tabla de llaves existente, y suspende sesión de el servidor. 
+**Exit:** Finaliza la sesión del cliente.
 
 
