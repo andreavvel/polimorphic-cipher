@@ -4,11 +4,13 @@ import json
 key_table=[]
 #funcion para leer el archivo en formato json
 def receive_message_from_client():
-    with open("message_to_server.json", "r") as file:
-        message = json.load(file)
-    return message
-
-print(receive_message_from_client())
+    try:
+        with open("message_to_server.json", "r") as file:
+            message = json.load(file)
+        return message
+    except:
+        print("Aun no haz creado el FCM. Crealo y vuelve a correr el servidor.")
+        return 0
 
 P = 0xF23456789ABCDEF  # P Constante de 64-bits
 Q = 0x1234567890ABCDEF  # Q Constante de 64-bits
@@ -89,32 +91,33 @@ def decrypt_message(encrypted_message, key_table, psn, keynum):
 #En base a el tipo de mensaje recibido, la interfaz grafica se encarga de mostrar el output de lo solicitado
 #Cada enter se vuelve a recibir el mensaje del json mas reciente
 message = receive_message_from_client()
-
-while(message["Type"] != "LCM"):
-    print("Enter para recibir mensaje más reciente")
-    input()
-    message= receive_message_from_client()
-    if (message["Type"] == "FCM" and key_table == []):
-        seed = message["Payload"]["seed"]
-        key_table = generate_key_table(seed, P, Q, N)
-        print(key_table)
-    elif(message["Type"] == "FCM"):
-        print("El FCM ya ha sido generado, prueba con un KU")
-    elif message["Type"] == "RM" and key_table != []:
-        encrypted_message = bytes.fromhex(message["Payload"])
-        psn = get_psn(message["PSN"])
-        keynum = int(message["ID"],0) -1
-        print(keynum)
-        decrypted_message = decrypt_message(encrypted_message, key_table, psn, keynum)
-        print(f"Decrypted Message: {decrypted_message}")
-    elif(message["Type"] == "RM"):
-        print("Debes generar un FCM primero")
-    elif (message["Type"] == "KU" and key_table != []):
-        key_table = []
-        seed = message["Payload"]["seed"]
-        key_table = generate_key_table(seed, P, Q, N)
-        print(key_table)
-    elif (message["Type"] == "KU"):
-        print("Aún no se ha establecido un FCM")
-    elif(message["Type"] == "LCM"):
-        key_table=[]
+if message != 0:
+    print(f"mensaje actual: {message}")
+    while(message["Type"] != "LCM"):
+        print("Enter para recibir mensaje más reciente")
+        input()
+        message= receive_message_from_client()
+        if (message["Type"] == "FCM" and key_table == []):
+            seed = message["Payload"]["seed"]
+            key_table = generate_key_table(seed, P, Q, N)
+            print(key_table)
+        elif(message["Type"] == "FCM"):
+            print("El FCM ya ha sido generado, prueba con un KU")
+        elif message["Type"] == "RM" and key_table != []:
+            encrypted_message = bytes.fromhex(message["Payload"])
+            psn = get_psn(message["PSN"])
+            keynum = int(message["ID"],0) -1
+            print(keynum)
+            decrypted_message = decrypt_message(encrypted_message, key_table, psn, keynum)
+            print(f"Decrypted Message: {decrypted_message}")
+        elif(message["Type"] == "RM"):
+            print("Debes generar un FCM primero")
+        elif (message["Type"] == "KU" and key_table != []):
+            key_table = []
+            seed = message["Payload"]["seed"]
+            key_table = generate_key_table(seed, P, Q, N)
+            print(key_table)
+        elif (message["Type"] == "KU"):
+            print("Aún no se ha establecido un FCM")
+        elif(message["Type"] == "LCM"):
+            key_table=[]
