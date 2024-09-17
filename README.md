@@ -25,9 +25,13 @@ Este cifrado solo funciona con strings de 7 caracteres, si tiene más de eso, el
 ## Nomenclatura de encriptación 
 
 **FCM:** First Contact Message, mensaje que se envía para generar la tabla de llaves del cliente en el servidor, a través de una semilla.
+
 **RM:** Regular Messages, mensaje que se envia cuando se desea escribir el texto a encriptar.
-**KUM:** Key Update message, Mensaje que se envía para actualizar la tabla de llaves en el cliente y servidor
+
+**KUM:** Key Update message, Mensaje que se envía para actualizar la tabla de llaves en el cliente y servidor.
+
 **LCM:** Last Contact Message, Mensaje que elimina la tabla de llaves existente, y suspende sesión de el servidor. 
+
 **Exit:** Finaliza la sesión del cliente.
 
 
