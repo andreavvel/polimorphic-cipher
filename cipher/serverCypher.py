@@ -9,8 +9,8 @@ def receive_message_from_client():
             message = json.load(file)
         return message
     except:
-        print("Aun no haz creado el FCM. Crealo y vuelve a correr el servidor.")
-        return 0
+        print("Aun no haz creado el FCM, o se ha eliminado. Crealo y vuelve a correr el servidor.")
+        pass
 
 P = 0xF23456789ABCDEF  # P Constante de 64-bits
 Q = 0x1234567890ABCDEF  # Q Constante de 64-bits
@@ -90,12 +90,12 @@ def decrypt_message(encrypted_message, key_table, psn, keynum):
 
 #En base a el tipo de mensaje recibido, la interfaz grafica se encarga de mostrar el output de lo solicitado
 #Cada enter se vuelve a recibir el mensaje del json mas reciente
-message = receive_message_from_client()
-if message != 0:
-    while(True):
-        print("Enter para recibir mensaje más reciente")
-        input()
-        message= receive_message_from_client()
+while(True):
+    #message = receive_message_from_client()
+    print("Enter para recibir mensaje más reciente")
+    input()
+    message= receive_message_from_client()
+    if message is not None:
         if (message["Type"] == "FCM" and key_table == []):
             seed = message["Payload"]["seed"]
             key_table = generate_key_table(seed, P, Q, N)
@@ -122,3 +122,5 @@ if message != 0:
             key_table=[]
             print("LCM recibido. Tabla de llaves eliminada.")
             break
+    else:
+        break

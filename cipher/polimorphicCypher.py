@@ -4,6 +4,7 @@ import hashlib
 import time
 import subprocess
 import json
+import os
 
 #Tabla de llaves para guardar las llaves generadas
 key_table=[]
@@ -115,6 +116,13 @@ def send_message_to_server(message_id, message_type, payload, psn=None):
     with open("message_to_server.json", "w") as file:
         json.dump(message, file)
 
+def delete_message_file():
+    try:
+        os.remove("message_to_server.json")
+        print("JSON eliminado. Gracias por encriptar con nosotros, vuelve pronto.")
+    except FileNotFoundError:
+        print("Gracias por encriptar con nosotros, vuelve pronto.")
+
 #Interfaz gráfica, con validaciones según el tipo de mensaje que manda el usuario
 #En base a las selecciones, se invocan las funciones explicadas anteriormente
 message_type = ""
@@ -160,7 +168,7 @@ while(message_type != "5"):
         print("Conexión finalizada. Genera un nuevo FCM para continuar.")
         input()
     elif(message_type== "5"):
-        print("Gracias por encriptar con nosotros, vuelve pronto.")
         send_message_to_server(bin(msg_id),"LCM", "")
+        delete_message_file()
     else:
         print("Debes elegir una opción válida")
