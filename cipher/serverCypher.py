@@ -92,8 +92,7 @@ def decrypt_message(encrypted_message, key_table, psn, keynum):
 #Cada enter se vuelve a recibir el mensaje del json mas reciente
 message = receive_message_from_client()
 if message != 0:
-    print(f"mensaje actual: {message}")
-    while(message["Type"] != "LCM"):
+    while(True):
         print("Enter para recibir mensaje más reciente")
         input()
         message= receive_message_from_client()
@@ -121,3 +120,5 @@ if message != 0:
             print("Aún no se ha establecido un FCM")
         elif(message["Type"] == "LCM"):
             key_table=[]
+            print("LCM recibido. Tabla de llaves eliminada.")
+            break
